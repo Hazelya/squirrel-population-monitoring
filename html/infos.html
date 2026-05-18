@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informations — Projet Écureuil</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body data-page="infos">
+
+  <nav class="navbar">
+    <a class="navbar__brand" href="main.html">
+      <span class="navbar__logo">🐿</span>
+      <span class="navbar__title">Projet Écureuil</span>
+    </a>
+    <button class="navbar__toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar__links" id="nav-links">
+      <li><a class="nav-link" href="main.html">Accueil</a></li>
+      <li><a class="nav-link" href="stats.html">Statistiques</a></li>
+      <li><a class="nav-link" href="photos.html">Photos</a></li>
+      <li><a class="nav-link" href="alertes.html">Alertes</a></li>
+      <li><a class="nav-link" href="projet.html">Projet</a></li>
+      <li><a class="nav-link" href="infos.html">Infos</a></li>
+    </ul>
+  </nav>
+
+  <div class="popup-overlay hidden" id="alert-popup">
+    <div class="popup">
+      <div class="popup__header">
+        <span class="popup__icon">⚠️</span>
+        <h2>Alerte sanitaire détectée</h2>
+        <button class="popup__close" onclick="closePopup()">✕</button>
+      </div>
+      <div class="popup__body">
+        <p>Un individu potentiellement malade a été identifié.</p>
+        <div class="popup__detail">
+          <span class="popup__label">Type :</span>
+          <span class="badge badge--warning" id="popup-type">—</span>
+        </div>
+        <div class="popup__detail">
+          <span class="popup__label">Date :</span>
+          <span id="popup-date">—</span>
+        </div>
+      </div>
+      <div class="popup__footer">
+        <button class="btn btn--primary" id="popup-link">Voir la détection</button>
+        <button class="btn btn--ghost" onclick="closePopup()">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+
+    <section class="section">
+      <h2>Informations techniques</h2>
+
+      <div class="content-card">
+        <h3>Stack technologique</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Composant</th><th>Technologie</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Backend</td><td>Python / Flask</td></tr>
+            <tr><td>Base de données</td><td>Supabase (PostgreSQL)</td></tr>
+            <tr><td>Modèle IA</td><td>CLIP ViT-B/32 (OpenAI)</td></tr>
+            <tr><td>Frontend</td><td>HTML5 / CSS3 / JavaScript vanilla</td></tr>
+            <tr><td>Communication DB</td><td>Supabase JS Client v2</td></tr>
+            <tr><td>Graphiques</td><td>Chart.js (CDN)</td></tr>
+            <tr><td>Transmission terrain</td><td>LTE-M / HTTP POST</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h3>Schéma de la base de données</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Table</th><th>Colonne</th><th>Type</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td rowspan="3"><strong>detections</strong></td><td>id_detection</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
+            <tr><td>image_path</td><td>TEXT</td><td>Chemin vers l'image</td></tr>
+            <tr><td>malade</td><td>BOOLEAN</td><td>Individu malade détecté</td></tr>
+            <tr><td rowspan="5"><strong>alertes</strong></td><td>id_alerte</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
+            <tr><td>type_alerte</td><td>TEXT</td><td>Type d'alerte sanitaire</td></tr>
+            <tr><td>date_alerte</td><td>DATE</td><td>Date de l'alerte</td></tr>
+            <tr><td>statut</td><td>TEXT</td><td>Statut de traitement</td></tr>
+            <tr><td>detection_id</td><td>INTEGER FK</td><td>Référence à detections</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h3>Intégration — Module IA (Baptiste / Laurine)</h3>
+        <p>Après classification sur votre module, envoyez le résultat via l'API Flask :</p>
+        <pre><code>import requests, base64
+
+with open("image.jpg", "rb") as f:
+    img_b64 = base64.b64encode(f.read()).decode()
+
+requests.post("http://&lt;serveur&gt;:5000/api/results", json={
+    "label": "a photo of a red squirrel",
+    "label_short": "Ecureuil roux",
+    "confidence": 0.92,
+    "health_alert": False,
+    "all_scores": {},
+    "device_id": "cam_01",
+    "image_base64": img_b64
+})</code></pre>
+      </div>
+
+      <div class="content-card">
+        <h3>Éco-conception</h3>
+        <ul>
+          <li>Chargement paresseux des images (<code>loading="lazy"</code>)</li>
+          <li>Pagination : 24 images maximum par page</li>
+          <li>JavaScript vanilla uniquement — aucun framework lourd</li>
+          <li>Chart.js chargé depuis CDN uniquement sur la page statistiques</li>
+          <li>Requêtes Supabase limitées et ciblées</li>
+          <li>Pages séparées : seul le JS nécessaire est chargé</li>
+        </ul>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Projet Écureuil — ISEN 2026 &nbsp;|&nbsp; Louison POURCHASSE / Julia AZEAU BIGORGNE</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/test.js"></script>
+
+</body>
+</html>

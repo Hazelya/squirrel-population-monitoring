@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accueil — Projet Écureuil</title>
+  <title>Alertes — Projet Écureuil</title>
   <link rel="stylesheet" href="../css/main.css">
 </head>
-<body data-page="accueil">
+<body data-page="alertes">
 
   <nav class="navbar">
     <a class="navbar__brand" href="main.html">
@@ -53,21 +53,13 @@
 
   <main class="main-content">
 
-    <section class="hero">
-      <h1>Projet Écureuil</h1>
-      <p>Surveillance autonome des populations d'écureuils par intelligence artificielle</p>
-    </section>
-
-    <div id="stats-cards" class="stats-row">
-      <p class="loading">Chargement des statistiques...</p>
-    </div>
-
     <section class="section">
-      <h2>Dernières détections</h2>
-      <div id="recent-detections">
-        <p class="loading">Chargement...</p>
+      <h2>Alertes sanitaires</h2>
+      <p id="alertes-count" class="section-meta">Chargement...</p>
+
+      <div id="alertes-table">
+        <p class="loading">Chargement des alertes...</p>
       </div>
-      <a href="photos.html" class="btn btn--secondary">Voir toutes les photos →</a>
     </section>
 
   </main>

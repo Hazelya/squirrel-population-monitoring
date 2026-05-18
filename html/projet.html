@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet — Projet Écureuil</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body data-page="projet">
+
+  <nav class="navbar">
+    <a class="navbar__brand" href="main.html">
+      <span class="navbar__logo">🐿</span>
+      <span class="navbar__title">Projet Écureuil</span>
+    </a>
+    <button class="navbar__toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="navbar__links" id="nav-links">
+      <li><a class="nav-link" href="main.html">Accueil</a></li>
+      <li><a class="nav-link" href="stats.html">Statistiques</a></li>
+      <li><a class="nav-link" href="photos.html">Photos</a></li>
+      <li><a class="nav-link" href="alertes.html">Alertes</a></li>
+      <li><a class="nav-link" href="projet.html">Projet</a></li>
+      <li><a class="nav-link" href="infos.html">Infos</a></li>
+    </ul>
+  </nav>
+
+  <div class="popup-overlay hidden" id="alert-popup">
+    <div class="popup">
+      <div class="popup__header">
+        <span class="popup__icon">⚠️</span>
+        <h2>Alerte sanitaire détectée</h2>
+        <button class="popup__close" onclick="closePopup()">✕</button>
+      </div>
+      <div class="popup__body">
+        <p>Un individu potentiellement malade a été identifié.</p>
+        <div class="popup__detail">
+          <span class="popup__label">Type :</span>
+          <span class="badge badge--warning" id="popup-type">—</span>
+        </div>
+        <div class="popup__detail">
+          <span class="popup__label">Date :</span>
+          <span id="popup-date">—</span>
+        </div>
+      </div>
+      <div class="popup__footer">
+        <button class="btn btn--primary" id="popup-link">Voir la détection</button>
+        <button class="btn btn--ghost" onclick="closePopup()">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content">
+
+    <section class="section">
+      <h2>Le Projet Écureuil</h2>
+
+      <div class="content-card">
+        <h3>Contexte scientifique</h3>
+        <p>
+          Le Projet Écureuil est un système IoT autonome conçu pour surveiller les populations
+          d'écureuils en milieu naturel. Face au déclin des populations d'écureuils roux
+          (<em>Sciurus vulgaris</em>) et à la propagation de maladies transmises par l'écureuil
+          gris invasif, un suivi automatisé et non-intrusif est nécessaire.
+        </p>
+        <p>
+          Le système capture des images en conditions réelles, les transmet via réseau LTE-M,
+          puis les classifie automatiquement grâce au modèle d'intelligence artificielle CLIP.
+        </p>
+      </div>
+
+      <div class="content-card">
+        <h3>Architecture du système</h3>
+        <div class="architecture-flow">
+          <div class="arch-step">
+            <div class="arch-icon">📷</div>
+            <div class="arch-label">ESP32-S3 + PIR</div>
+            <div class="arch-sub">Capture terrain</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-step">
+            <div class="arch-icon">📡</div>
+            <div class="arch-label">LTE-M</div>
+            <div class="arch-sub">Transmission</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-step">
+            <div class="arch-icon">🤖</div>
+            <div class="arch-label">CLIP ViT-B/32</div>
+            <div class="arch-sub">Classification IA</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-step">
+            <div class="arch-icon">🗄️</div>
+            <div class="arch-label">Supabase</div>
+            <div class="arch-sub">Base de données</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-step">
+            <div class="arch-icon">🌐</div>
+            <div class="arch-label">Interface Web</div>
+            <div class="arch-sub">Visualisation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="content-card">
+          <h3>Avantages</h3>
+          <ul>
+            <li>Surveillance 24h/24 non-intrusive</li>
+            <li>Classification IA zero-shot (CLIP)</li>
+            <li>Détection automatique d'individus malades</li>
+            <li>Alertes sanitaires en temps réel</li>
+            <li>Interface accessible depuis tout navigateur</li>
+            <li>Base de données cloud Supabase</li>
+          </ul>
+        </div>
+        <div class="content-card">
+          <h3>Limites actuelles</h3>
+          <ul>
+            <li>Dépendance à la qualité d'image</li>
+            <li>Faux positifs possibles (autres animaux)</li>
+            <li>Pas de géolocalisation par défaut</li>
+            <li>Nécessite couverture LTE-M</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h3>L'équipe — ISEN 2026</h3>
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-role">Interface Web (front-end & back-end)</div>
+            <div class="team-name">Louison POURCHASSE / Julia AZEAU BIGORGNE</div>
+          </div>
+          <div class="team-card">
+            <div class="team-role">Module IA (classification CLIP)</div>
+            <div class="team-name">Baptiste / Laurine</div>
+          </div>
+          <div class="team-card">
+            <div class="team-role">Dispositif terrain (ESP32 + LTE-M)</div>
+            <div class="team-name">Elise</div>
+          </div>
+          <div class="team-card">
+            <div class="team-role">Base de données</div>
+            <div class="team-name">Brendan</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Projet Écureuil — ISEN 2026</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="../js/test.js"></script>
+
+</body>
+</html>

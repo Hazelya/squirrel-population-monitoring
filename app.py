@@ -1,35 +1,35 @@
-import os
-from flask import Flask
-from supabase import create_client, Client
-from dotenv import load_dotenv
-
-# Exemple
-# Connexion base de données 
-# requête simple
-# Route HTML
-# Affichage de la requête
-
-load_dotenv()
+from flask import Flask, jsonify
+from flask_cors import CORS
+from requete.detections_alertes import get_all_detections, get_images, get_one_detection, get_all_alert, get_one_alert, set_alert, set_disease, remove
 
 app = Flask(__name__)
+CORS(app)  # autorise le HTML à appeler l'API
 
-supabase: Client = create_client( # Connexion BDD
-    os.environ.get("SUPABASE_URL"),
-    os.environ.get("SUPABASE_KEY")
-)
+@app.route('/detections')
+def detections():
+    return jsonify(get_all_detections())
 
-@app.route('/') # Route à l'origine
-def index():
-    response = supabase.table('detections').select("*").execute() # Requete
-    todos = response.data # Résultat de la requete
+@app.route('/detections/<int:id>')
+def one_detection(id):
+    return jsonify(get_one_detection(id))
 
-    # HTML
-    html = '<h1>TEST NUMERO 1</h1><ul>'
-    for todo in todos:
-        html += f'<li>{todo["id_detection"]}</li>'
-    html += '</ul>'
+@app.route('/alertes')
+def alertes():
+    return jsonify(get_all_alert())
 
-    return html
+@app.route('/alertes/<int:id>')
+def one_alerte(id):
+    return jsonify(get_one_alert(id))
 
-if __name__ == '__main__': # Lancement du serveur (app.py) en local 
+@app.route('/detections/<int:id>/alertes')
+def alertes_by_detection(id):
+    from requete.detections_alertes import get_one_alert_with_detection
+    return jsonify(get_one_alert_with_detection(id))
+
+@app.route('/detections/<int:id>/delete', methods=['DELETE'])
+def delete_detection(id):
+    remove(id)
+    return jsonify({"ok": True})
+
+if __name__ == '__main__':
     app.run(debug=True)

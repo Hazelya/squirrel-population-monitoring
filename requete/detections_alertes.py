@@ -8,7 +8,7 @@ from connexion_bdd import supabase
 def get_images():
     try:
         response = (
-            supabase.table('detections')
+            supabase.table('detection')
             .select("id_detection", "image_path")
             .execute()
         )
@@ -21,7 +21,7 @@ def get_images():
 def get_all_detections():
     try:
         response = (
-            supabase.table('detections')
+            supabase.table('detection')
             .select("*")
             .execute()
         )
@@ -34,7 +34,7 @@ def get_all_detections():
 def get_one_detection(id: int):
     try:
         response = (
-            supabase.table('detections')
+            supabase.table('detection')
             .select("*")
             .eq("id_detection", id)
             .execute()
@@ -48,7 +48,7 @@ def get_one_detection(id: int):
 def get_all_alert():
     try:
         response = (
-            supabase.table('alertes')
+            supabase.table('alerte')
             .select("type_alerte", "date_alerte", "detections(image_path)")
             .execute()
         )
@@ -61,7 +61,7 @@ def get_all_alert():
 def get_one_alert(id: int):
     try:
         response = (
-            supabase.table('alertes')
+            supabase.table('alerte')
             .select("type_alerte", "date_alerte", "detections(image_path)")
             .eq("id_alerte", id)
             .execute()
@@ -74,7 +74,7 @@ def get_one_alert(id: int):
 def get_one_alert_with_detection(id: int):
     try:
         response = (
-            supabase.table('alertes')
+            supabase.table('alerte')
             .select("type_alerte", "date_alerte", "detections(image_path)")
             .eq("detection_id", id)
             .execute()
@@ -88,7 +88,7 @@ def get_one_alert_with_detection(id: int):
 def set_alert(id: int, type_alerte: str, date_alerte: date, statut: str):
     try: 
         _ = (
-            supabase.table("alertes")
+            supabase.table("alerte")
             .insert({
                 "type_alerte": type_alerte,
                 "date_alerte": date_alerte,
@@ -105,7 +105,7 @@ def set_alert(id: int, type_alerte: str, date_alerte: date, statut: str):
 def set_disease(id: int, disease: bool):
     try:
         _ = (
-            supabase.table("detections")
+            supabase.table("detection")
             .update({"malade": disease})
             .eq("id_detection", id)
             .execute()
@@ -128,7 +128,7 @@ def set_disease(id: int, disease: bool):
 def remove(id: str):
     try : 
         _ = (
-            supabase.table("alertes")
+            supabase.table("alerte")
             .delete()
             .eq("detection_id", id)
             .execute()
@@ -139,7 +139,7 @@ def remove(id: str):
     
     try:
         _ = (
-            supabase.table("detections")
+            supabase.table("detection")
             .delete()
             .eq("id_detection", id)
             .execute()
