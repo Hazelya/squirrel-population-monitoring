@@ -30,37 +30,24 @@ function goToAnalyse(id) {
   window.location.href = `analyse.html?id=${id}`;
 }
 
-// ─── DATA FETCHERS ────────────────────────────────────────────────────────────
+// ─── DATA FETCHERS PYTHON ────────────────────────────────────────────────────────────
 
-async function fetchDetections(limit = null) {
-  let query = db.from('detections').select('*').order('id_detection', { ascending: false });
-  if (limit) query = query.limit(limit);
-  const { data, error } = await query;
-  if (error) { console.error('fetchDetections:', error); return []; }
+async function fetchOneDetection(id) {
+  const res = await fetch('http://localhost:5000/detections');
+  const data = await res.json();
   return data || [];
 }
 
-async function fetchOneDetection(id) {
-  const { data, error } = await db
-    .from('detections').select('*').eq('id_detection', id).single();
-  if (error) { console.error('fetchOneDetection:', error); return null; }
-  return data;
-}
-
 async function fetchAlertes() {
-  const { data, error } = await db
-    .from('alertes')
-    .select('*, detections(image_path)')
-    .order('id_alerte', { ascending: false });
-  if (error) { console.error('fetchAlertes:', error); return []; }
+  const res = await fetch('http://localhost:5000/alertes');
+  const data = await res.json();
   return data || [];
 }
 
 async function fetchAlertesByDetection(detectionId) {
-  const { data, error } = await db
-    .from('alertes').select('*').eq('detection_id', detectionId);
-  if (error) { console.error('fetchAlertesByDetection:', error); return []; }
-  return data || [];
+  const res = await fetch(`http://localhost:5000/detections/${id}`);
+  const data = await res.json();
+  return data || null;
 }
 
 // ─── PAGE: ACCUEIL (main.html) ────────────────────────────────────────────────

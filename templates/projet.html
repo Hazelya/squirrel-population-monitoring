@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projet — Projet Écureuil</title>
-  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
 </head>
 <body data-page="projet">
 
@@ -17,12 +17,12 @@
       <span></span><span></span><span></span>
     </button>
     <ul class="navbar__links" id="nav-links">
-      <li><a class="nav-link" href="main.html">Accueil</a></li>
-      <li><a class="nav-link" href="stats.html">Statistiques</a></li>
-      <li><a class="nav-link" href="photos.html">Photos</a></li>
-      <li><a class="nav-link" href="alertes.html">Alertes</a></li>
-      <li><a class="nav-link" href="projet.html">Projet</a></li>
-      <li><a class="nav-link" href="infos.html">Infos</a></li>
+      <li><a class="nav-link" href="/main-page">Accueil</a></li>
+      <li><a class="nav-link" href="/stats-page">Statistiques</a></li>
+      <li><a class="nav-link" href="/photos-page">Photos</a></li>
+      <li><a class="nav-link" href="/alertes-page">Alertes</a></li>
+      <li><a class="nav-link" href="/projets-page">Projet</a></li>
+      <li><a class="nav-link" href="/infos-page">Infos</a></li>
     </ul>
   </nav>
 
@@ -158,8 +158,7 @@
     <p>Projet Écureuil — ISEN 2026</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src="../js/test.js"></script>
+  <script src="../static/test.js"></script>
 
 </body>
 </html>

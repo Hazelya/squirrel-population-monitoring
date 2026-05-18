@@ -3,7 +3,7 @@ import os
 from datetime import date
 from supabase import PostgrestAPIError
 
-from connexion_bdd import supabase
+from requete.connexion_bdd import supabase
 
 def get_images():
     try:
