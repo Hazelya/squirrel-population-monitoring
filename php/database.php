@@ -1,12 +1,5 @@
 <?php
 
-extension_loaded('pdo_pgsql') or die('The PDO PostgreSQL extension is not enabled.');
-//require_once('../config.php');
-$host = getenv('DB_HOST') ?: 'localhost';
-$db = getenv('DB_NAME') ?: 'mydb';
-$user = getenv('DB_USER') ?: 'root';
-$pass = getenv('DB_PASS') ?: '';
-
 class Db
 {
     static $db = null;
