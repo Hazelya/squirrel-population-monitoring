@@ -1,8 +1,8 @@
 Date dernière mise à jour : Mai 2026
 
-<br>
-
 # Développement d’un système de piégeage photographique intelligent pour la surveillance des populations d'écureuils en france
+
+<br>
 
 ### squirrel-population-monitoring
 
