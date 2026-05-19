@@ -411,6 +411,12 @@ pre {
   max-height: 260px;
 }
 
+#chart-sante {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+
 /* ── TABLES ────────────────────────────────────────────────────────────────── */
 .data-table {
   width: 100%;
