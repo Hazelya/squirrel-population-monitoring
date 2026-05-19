@@ -1,2 +1,3 @@
-supabase
 flask
+flask-cors
+supabase
