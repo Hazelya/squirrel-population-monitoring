@@ -25,11 +25,18 @@ export function renderPhotosPage(page) {
     grid.innerHTML = `
       <div class="detections-grid detections-grid--large">
         ${slice.map(d => `
-          <div class="detection-card" onclick="goToAnalyse(${d.id_detection})" role="button" tabindex="0">
-            <div class="detection-card__img">${imgTag(d.image_path, `#${d.id_detection}`)}</div>
+          <div class="detection-card"
+              data-id="${d.id_detection}"
+              role="button"
+              tabindex="0">
+            <div class="detection-card__img">
+              ${imgTag(d.image_path, `#${d.id_detection}`)}
+            </div>
             <div class="detection-card__info">
               <span class="detection-id">#${d.id_detection}</span>
-              ${d.malade ? '<span class="badge badge--danger">Malade</span>' : '<span class="badge badge--ok">Sain</span>'}
+              ${d.malade
+                ? '<span class="badge badge--danger">Malade</span>'
+                : '<span class="badge badge--ok">Sain</span>'}
             </div>
           </div>
         `).join('')}
@@ -44,4 +51,11 @@ export function renderPhotosPage(page) {
       <button class="btn btn--secondary" onclick="renderPhotosPage(${page + 1})" ${page >= totalPages - 1 ? 'disabled' : ''}>Suivant →</button>
     </div>
   ` : '';
+
+  document.querySelectorAll('.detection-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const id = card.dataset.id;
+      window.location.href = `/analyse-page/${id}`;
+    });
+  });
 }

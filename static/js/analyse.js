@@ -5,8 +5,9 @@ import { getImageUrl, formatDate, imgTag, goToAnalyse } from "./helpers.js";
 // ─── PAGE: ANALYSE (analyse.html) ────────────────────────────────────────────
 
 export async function initAnalyse() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
+  const pathParts = window.location.pathname.split('/');
+  const id = pathParts[pathParts.length - 1];
+
   const container = document.getElementById('analyse-content');
 
   if (!id) {
@@ -28,24 +29,31 @@ export async function initAnalyse() {
     return;
   }
 
-  const metaFields = Object.entries(detection)
+  const d = detection[0];
+
+  const metaFields = Object.entries(d)
     .filter(([k]) => k !== 'image_path')
-    .map(([k, v]) => `<tr><th>${k}</th><td>${v === null || v === undefined ? '—' : String(v)}</td></tr>`)
+    .map(([k, v]) => `
+      <tr>
+        <th>${k}</th>
+        <td>${v === null || v === undefined ? '—' : String(v)}</td>
+      </tr>
+    `)
     .join('');
 
   container.innerHTML = `
     <section class="section">
       <div class="analyse-header">
-        <a href="photos.html" class="btn btn--ghost">← Retour aux photos</a>
-        <h2>Détection #${detection.id_detection}</h2>
-        ${detection.malade
+        <a href="/photos-page" class="btn btn--ghost">← Retour aux photos</a>
+        <h2>Détection #${d.id_detection}</h2>
+        ${d.malade
           ? '<span class="badge badge--danger badge--lg">Individu malade</span>'
           : '<span class="badge badge--ok badge--lg">Individu sain</span>'}
       </div>
 
       <div class="analyse-grid">
         <div class="analyse-image">
-          ${imgTag(detection.image_path, `Détection #${detection.id_detection}`)}
+          ${imgTag(d.image_ia_path, `#${d.id_detection}`)}
         </div>
         <div class="analyse-details">
           <h3>Métadonnées</h3>

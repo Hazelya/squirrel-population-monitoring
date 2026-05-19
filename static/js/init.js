@@ -1,7 +1,7 @@
 import { checkAlertPopup, closePopup } from "./popup_alerte.js";
 import { initAccueil } from "./main.js";
 import { initStats } from "./stats.js";
-import { initPhotos } from "./photos.js";
+import { initPhotos, renderPhotosPage } from "./photos.js";
 import { initAnalyse, deleteDetection } from "./analyse.js";
 import { initAlertes } from "./alertes.js";
 

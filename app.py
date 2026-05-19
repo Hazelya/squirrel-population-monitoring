@@ -19,9 +19,9 @@ def stats():
 def photos():
     return render_template('photos.html')
 
-@app.route('/analyse-page')
-def analyse():
-    return render_template('analyse.html')
+@app.route('/analyse-page/<int:id>')
+def analyse(id):
+    return render_template('analyse.html', detection_id=id)
 
 @app.route('/alertes-page')
 def alertes_page():

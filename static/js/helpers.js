@@ -21,5 +21,5 @@ export function imgTag(imagePath, alt = 'Détection') {
 }
 
 export function goToAnalyse(id) {
-  window.location.href = `analyse.html?id=${id}`;
+  window.location.href = `/analyse-page/?id=${id}`;
 }
