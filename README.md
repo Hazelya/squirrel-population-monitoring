@@ -23,7 +23,13 @@ Le projet vise donc à concevoir un dispositif autonome de détection et d’obs
 ## Prérequis
 
 Merci d'installer les librairies suivantes 
-- ...
+- flask
+- flask-cors
+- supabase
+
+```bash
+pip install -r requirements.txt
+```
 
 <br>
 
