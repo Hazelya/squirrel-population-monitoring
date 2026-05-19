@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 Pour cloner le repository hébergé sur GitHub, vous pouvez passer directement par l'extension VS Code ou le cloner directement en ligne de commande comme ceci :
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+git clone https://github.com/hazelya/squirrel-population-monitoring
 ```
 
 <br>
