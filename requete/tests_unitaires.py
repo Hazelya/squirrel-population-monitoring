@@ -57,4 +57,4 @@ def test_remove():
     print(get_one_alert_with_detection(6))
 
 
-test_all_detections()
+test_all_alert()

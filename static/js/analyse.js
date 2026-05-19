@@ -1,0 +1,89 @@
+import { fetchDetections, fetchOneDetection, fetchAlertes, fetchAlertesByDetection } from "./fetch.js";
+import { getImageUrl, formatDate, imgTag, goToAnalyse } from "./helpers.js";
+
+
+// ─── PAGE: ANALYSE (analyse.html) ────────────────────────────────────────────
+
+export async function initAnalyse() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const container = document.getElementById('analyse-content');
+
+  if (!id) {
+    container.innerHTML = `
+      <section class="section">
+        <h2>Analyse de détection</h2>
+        <p class="empty-state">Aucune détection sélectionnée. <a href="photos.html">Choisissez une photo</a>.</p>
+      </section>`;
+    return;
+  }
+
+  const [detection, alertes] = await Promise.all([
+    fetchOneDetection(id),
+    fetchAlertesByDetection(id),
+  ]);
+
+  if (!detection) {
+    container.innerHTML = '<p class="error">Détection introuvable.</p>';
+    return;
+  }
+
+  const metaFields = Object.entries(detection)
+    .filter(([k]) => k !== 'image_path')
+    .map(([k, v]) => `<tr><th>${k}</th><td>${v === null || v === undefined ? '—' : String(v)}</td></tr>`)
+    .join('');
+
+  container.innerHTML = `
+    <section class="section">
+      <div class="analyse-header">
+        <a href="photos.html" class="btn btn--ghost">← Retour aux photos</a>
+        <h2>Détection #${detection.id_detection}</h2>
+        ${detection.malade
+          ? '<span class="badge badge--danger badge--lg">Individu malade</span>'
+          : '<span class="badge badge--ok badge--lg">Individu sain</span>'}
+      </div>
+
+      <div class="analyse-grid">
+        <div class="analyse-image">
+          ${imgTag(detection.image_path, `Détection #${detection.id_detection}`)}
+        </div>
+        <div class="analyse-details">
+          <h3>Métadonnées</h3>
+          <table class="data-table meta-table">
+            <tbody>${metaFields}</tbody>
+          </table>
+
+          ${alertes.length > 0 ? `
+            <h3>Alertes liées</h3>
+            <table class="data-table">
+              <thead><tr><th>Type</th><th>Date</th><th>Statut</th></tr></thead>
+              <tbody>
+                ${alertes.map(a => `
+                  <tr>
+                    <td><span class="badge badge--warning">${a.type_alerte || '—'}</span></td>
+                    <td>${formatDate(a.date_alerte)}</td>
+                    <td>${a.statut || '—'}</td>
+                  </tr>`).join('')}
+              </tbody>
+            </table>
+          ` : ''}
+
+          <div class="analyse-actions">
+            <button class="btn btn--danger" onclick="deleteDetection(${detection.id_detection})">
+              Supprimer cette détection
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+export async function deleteDetection(id) {
+  if (!confirm(`Supprimer la détection #${id} et ses alertes ? Cette action est irréversible.`)) return;
+  const { error: e1 } = await db.from('alertes').delete().eq('detection_id', id);
+  if (e1) { alert('Erreur lors de la suppression des alertes.'); return; }
+  const { error: e2 } = await db.from('detections').delete().eq('id_detection', id);
+  if (e2) { alert('Erreur lors de la suppression de la détection.'); return; }
+  window.location.href = 'photos.html';
+}

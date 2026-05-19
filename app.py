@@ -35,6 +35,9 @@ def projet_page():
 def infos_page():
     return render_template('infos.html')
 
+@app.route('/detections')
+def detections():
+    return jsonify(get_all_detections())
 
 @app.route('/detections/<int:id>')
 def one_detection(id):
