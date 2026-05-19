@@ -7,7 +7,6 @@ import { getImageUrl, formatDate, imgTag, goToAnalyse } from "./helpers.js";
 export async function initStats() {
   const alertes = await fetchAlertes();
   const detections = await fetchDetections();
-  //const [detections, alertes] = await Promise.all([fetchDetections(), fetchAlertes()]);
 
   const malades = detections.filter(d => d.malade).length;
   const sains = detections.length - malades;

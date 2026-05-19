@@ -1,3 +1,6 @@
+import { fetchDetections, fetchOneDetection, fetchAlertes, fetchAlertesByDetection } from "./fetch.js";
+import { getImageUrl, formatDate, imgTag, goToAnalyse } from "./helpers.js";
+
 // ─── POPUP D'ALERTE ───────────────────────────────────────────────────────────
 
 export async function checkAlertPopup() {
