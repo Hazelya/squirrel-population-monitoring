@@ -33,6 +33,7 @@ export async function initAnalyse() {
 
   const metaFields = Object.entries(d)
     .filter(([k]) => k !== 'image_path')
+    .filter(([k]) => k !== 'clip_labels')
     .map(([k, v]) => `
       <tr>
         <th>${k}</th>
@@ -40,6 +41,14 @@ export async function initAnalyse() {
       </tr>
     `)
     .join('');
+
+  
+  let clipLabel = `<tr> <th>Clip Label</th> <td>`
+  d.clip_labels.forEach(element => {
+    clipLabel += 
+    `${element === null || element === undefined ? '—' : String(element.confidence + " % :  " + element.species)} <br>`
+  });
+  clipLabel += `</td></tr>`
 
   container.innerHTML = `
     <section class="section">
@@ -58,7 +67,7 @@ export async function initAnalyse() {
         <div class="analyse-details">
           <h3>Métadonnées</h3>
           <table class="data-table meta-table">
-            <tbody>${metaFields}</tbody>
+            <tbody>${clipLabel}${metaFields}</tbody>
           </table>
 
           ${alertes.length > 0 ? `
