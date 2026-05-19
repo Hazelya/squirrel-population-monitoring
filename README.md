@@ -10,6 +10,7 @@ Date dernière mise à jour : Mai 2026
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JS](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
 
 La préservation de la biodiversité constitue un enjeu majeur pour les écosystèmes. De nombreuses espèces animales sont menacées par les activités humaines, la fragmentation des habitats naturels ainsi que l’introduction d’espèces invasives. Ces dernières peuvent perturber l’équilibre écologique en entrant en compétition avec les espèces natives pour les ressources alimentaires, l’habitat ou encore en transmettant des maladies.
 
