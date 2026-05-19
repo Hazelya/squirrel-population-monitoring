@@ -56,10 +56,12 @@ def alertes_by_detection(id):
     from requete.detections_alertes import get_one_alert_with_detection
     return jsonify(get_one_alert_with_detection(id))
 
-@app.route('/detections/<int:id>/delete', methods=['DELETE'])
+
+@app.route('/remove/<int:id>')
 def delete_detection(id):
     remove(id)
     return jsonify({"ok": True})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

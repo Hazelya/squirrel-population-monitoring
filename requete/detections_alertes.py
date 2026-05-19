@@ -97,6 +97,7 @@ def set_alert(id: int, type_alerte: str, date_alerte: date, statut: str):
             })
             .execute()
         )
+        return
 
     except PostgrestAPIError as error:
         print(f"Database error: {error.message}")
@@ -110,20 +111,12 @@ def set_disease(id: int, disease: bool):
             .eq("id_detection", id)
             .execute()
         )
+        return
 
     except PostgrestAPIError as error:
         print(f"Database error: {error.message}")
 
-    """
-    Possibilité d'un return pour créer un pop up 
-    response = (
-        supabase.table("instruments")
-        .update({"name": "piano"})
-        .eq("id", 1)
-        .select("id, name")
-        .execute()
-    )
-    """
+
 
 def remove(id: str):
     try : 
@@ -144,7 +137,9 @@ def remove(id: str):
             .eq("id_detection", id)
             .execute()
         )
+        return
 
     except PostgrestAPIError as error:
         print(f"Database error: {error.message}")
+
 

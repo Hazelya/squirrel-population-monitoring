@@ -1,4 +1,4 @@
-import { fetchDetections, fetchOneDetection, fetchAlertes, fetchAlertesByDetection } from "./fetch.js";
+import { fetchDetections, fetchOneDetection, fetchAlertes, fetchAlertesByDetection, fetchRemove } from "./fetch.js";
 import { getImageUrl, formatDate, imgTag, goToAnalyse } from "./helpers.js";
 
 
@@ -86,7 +86,7 @@ export async function initAnalyse() {
           ` : ''}
 
           <div class="analyse-actions">
-            <button class="btn btn--danger" onclick="deleteDetection(${detection.id_detection})">
+            <button class="btn btn--danger btn-remove" data-id="${d.id_detection}">
               Supprimer cette détection
             </button>
           </div>
@@ -94,13 +94,14 @@ export async function initAnalyse() {
       </div>
     </section>
   `;
+
+  document.querySelectorAll('.btn-remove').forEach(button => {
+    button.addEventListener('click', () => {
+      const id = button.dataset.id;
+      fetchRemove(id);
+      window.location.href = `/photos-page`;
+    });
+  });
+
 }
 
-export async function deleteDetection(id) {
-  if (!confirm(`Supprimer la détection #${id} et ses alertes ? Cette action est irréversible.`)) return;
-  const { error: e1 } = await db.from('alertes').delete().eq('detection_id', id);
-  if (e1) { alert('Erreur lors de la suppression des alertes.'); return; }
-  const { error: e2 } = await db.from('detections').delete().eq('id_detection', id);
-  if (e2) { alert('Erreur lors de la suppression de la détection.'); return; }
-  window.location.href = 'photos.html';
-}
