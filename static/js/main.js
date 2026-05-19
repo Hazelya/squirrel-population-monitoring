@@ -39,7 +39,10 @@ export async function initAccueil() {
   grid.innerHTML = `
     <div class="detections-grid">
       ${recent.map(d => `
-        <div class="detection-card" onclick="goToAnalyse(${d.id_detection})" role="button" tabindex="0">
+        <div class="detection-card"
+              data-id="${d.id_detection}"
+              role="button"
+              tabindex="0">
           <div class="detection-card__img">${imgTag(d.image_path, `#${d.id_detection}`)}</div>
           <div class="detection-card__info">
             <span class="detection-id">#${d.id_detection}</span>
@@ -49,4 +52,11 @@ export async function initAccueil() {
       `).join('')}
     </div>
   `;
+
+  document.querySelectorAll('.detection-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const id = card.dataset.id;
+      window.location.href = `/analyse-page/${id}`;
+    });
+  });
 }
