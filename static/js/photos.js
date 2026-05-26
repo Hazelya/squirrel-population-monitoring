@@ -14,7 +14,17 @@ export async function initPhotos() {
 export function renderPhotosPage(page) {
   const total = photosAllData.length;
   const totalPages = Math.ceil(total / PHOTOS_PER_PAGE);
-  const slice = photosAllData.slice(page * PHOTOS_PER_PAGE, (page + 1) * PHOTOS_PER_PAGE);
+
+  // Calcul des bornes de la page en partant de la fin du tableau
+  const start = Math.max(
+    total - (page + 1) * PHOTOS_PER_PAGE,
+    0
+  );
+  const end = total - page * PHOTOS_PER_PAGE;
+
+  // Récupère les éléments de la page puis inverse l’ordre
+  // pour afficher les plus récents en premier
+  const slice = photosAllData.slice(start, end).reverse();
 
   document.getElementById('photos-count').textContent = `${total} détection${total > 1 ? 's' : ''} au total`;
 

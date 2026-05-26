@@ -1,29 +1,49 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Accueil — Projet Écureuil</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body data-page="accueil">
 
   <nav class="navbar">
+
     <a class="navbar__brand" href="/main-page">
       <span class="navbar__logo">🐿</span>
       <span class="navbar__title">Projet Écureuil</span>
     </a>
-    <button class="navbar__toggle" id="nav-toggle" aria-label="Menu">
-      <span></span><span></span><span></span>
+
+    <button class="navbar__toggle"
+            id="nav-toggle"
+            aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
+
     <ul class="navbar__links" id="nav-links">
+
       <li><a class="nav-link" href="/main-page">Accueil</a></li>
+
       <li><a class="nav-link" href="/stats-page">Statistiques</a></li>
+
       <li><a class="nav-link" href="/photos-page">Photos</a></li>
+
       <li><a class="nav-link" href="/alertes-page">Alertes</a></li>
+
       <li><a class="nav-link" href="/projets-page">Projet</a></li>
+
       <li><a class="nav-link" href="/infos-page">Infos</a></li>
+
     </ul>
+
   </nav>
 
   <div class="popup-overlay hidden" id="alert-popup">
@@ -51,63 +71,139 @@
     </div>
   </div>
 
+
   <main class="main-content">
 
     <section class="hero">
+
       <h1>Projet Écureuil</h1>
-      <p>Surveillance autonome des populations d'écureuils par intelligence artificielle</p>
+
+      <p>
+        Plateforme de stockage et visualisation des images d'écureuils
+      </p>
+
     </section>
 
+
     <div id="stats-cards" class="stats-row">
-      <p class="loading">Chargement des statistiques...</p>
+
+      <p class="loading">
+        Chargement des statistiques...
+      </p>
+
     </div>
 
+
     <section class="section">
-      <h2>Dernières détections</h2>
+
+      <h2>Dernières images</h2>
+
       <div id="recent-detections">
         <p class="loading">Chargement...</p>
       </div>
-      <a href="/photos-page" class="btn btn--secondary">Voir toutes les photos →</a>
+
+      <a href="/photos-page"
+         class="btn btn--secondary">
+
+        Voir toutes les photos →
+
+      </a>
+
     </section>
 
-    <!-- ── ZONE UPLOAD CLIP ──────────────────────────────────────────────── -->
+
+    <!-- ─── UPLOAD ───────────────────────────────────────── -->
+
     <section class="section">
-      <h2>Analyser une image</h2>
-      <p class="section-meta">Déposez une photo pour la classifier automatiquement avec le modèle CLIP.</p>
+
+      <h2>Uploader une image</h2>
+
+      <p class="section-meta">
+        Déposez une photo ou un dossier d'images.
+      </p>
+
 
       <div class="upload-zone" id="upload-zone">
-        <input type="file" id="file-input" accept="image/*" hidden>
-        <input type="file" id="folder-input" accept="image/*" webkitdirectory multiple hidden>
-        <div class="upload-zone__content" id="upload-idle">
+
+        <input type="file"
+               id="file-input"
+               accept="image/*"
+               hidden>
+
+        <input type="file"
+               id="folder-input"
+               accept="image/*"
+               webkitdirectory
+               multiple
+               hidden>
+
+
+        <div class="upload-zone__content">
+
           <div class="upload-zone__icon">📷</div>
-          <p class="upload-zone__text">Glissez une photo ou un dossier ici</p>
+
+          <p class="upload-zone__text">
+            Glissez une photo ou un dossier ici
+          </p>
+
           <span class="upload-zone__or">ou</span>
+
+
           <div class="upload-zone__btns">
-            <label for="file-input" class="btn btn--primary">Parcourir une photo</label>
-            <label for="folder-input" class="btn btn--secondary">Importer un dossier</label>
+
+            <label for="file-input"
+                   class="btn btn--primary">
+
+              Parcourir une photo
+
+            </label>
+
+            <label for="folder-input"
+                   class="btn btn--secondary">
+
+              Importer un dossier
+
+            </label>
+
           </div>
+
         </div>
+
       </div>
 
+
       <div class="upload-panel hidden" id="upload-panel">
+
         <div class="upload-preview" id="upload-preview">
-          <img id="upload-preview-img" src="" alt="Aperçu de l'image">
+
+          <img id="upload-preview-img"
+               src=""
+               alt="Aperçu de l'image">
+
         </div>
+
         <div class="upload-result" id="upload-result">
-          <p class="loading">Analyse en cours...</p>
+
+          <p class="loading">
+            Upload en cours...
+          </p>
+
         </div>
+
       </div>
 
     </section>
 
   </main>
 
+
   <footer class="footer">
     <p>Projet Écureuil — ISEN 2026</p>
   </footer>
 
+
   <script type="module"
-        src="{{ url_for('static', filename='js/init.js') }}">
+          src="{{ url_for('static', filename='js/init.js') }}">
   </script>
 
 </body>

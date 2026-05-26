@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const overlay = document.getElementById('alert-popup');
   if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) closePopup(); });
 
+  // Exposer les fonctions nécessaires au HTML (onclick dans innerHTML)
+  window.closePopup = closePopup;
+  window.goToAnalyse = goToAnalyse;
+
   // Vérifier popup d'alerte
   checkAlertPopup();
 
