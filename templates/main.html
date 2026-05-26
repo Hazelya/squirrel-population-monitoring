@@ -70,6 +70,36 @@
       <a href="/photos-page" class="btn btn--secondary">Voir toutes les photos →</a>
     </section>
 
+    <!-- ── ZONE UPLOAD CLIP ──────────────────────────────────────────────── -->
+    <section class="section">
+      <h2>Analyser une image</h2>
+      <p class="section-meta">Déposez une photo pour la classifier automatiquement avec le modèle CLIP.</p>
+
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="file-input" accept="image/*" hidden>
+        <input type="file" id="folder-input" accept="image/*" webkitdirectory multiple hidden>
+        <div class="upload-zone__content" id="upload-idle">
+          <div class="upload-zone__icon">📷</div>
+          <p class="upload-zone__text">Glissez une photo ou un dossier ici</p>
+          <span class="upload-zone__or">ou</span>
+          <div class="upload-zone__btns">
+            <label for="file-input" class="btn btn--primary">Parcourir une photo</label>
+            <label for="folder-input" class="btn btn--secondary">Importer un dossier</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="upload-panel hidden" id="upload-panel">
+        <div class="upload-preview" id="upload-preview">
+          <img id="upload-preview-img" src="" alt="Aperçu de l'image">
+        </div>
+        <div class="upload-result" id="upload-result">
+          <p class="loading">Analyse en cours...</p>
+        </div>
+      </div>
+
+    </section>
+
   </main>
 
   <footer class="footer">

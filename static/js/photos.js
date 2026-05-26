@@ -59,3 +59,6 @@ export function renderPhotosPage(page) {
     });
   });
 }
+
+// Exposer pour les boutons de pagination générés en innerHTML
+window.renderPhotosPage = renderPhotosPage;

@@ -1,13 +1,13 @@
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
-/*
+
 export function getImageUrl(imagePath) {
   if (!imagePath) return null;
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) return imagePath;
-  return `${SUPABASE_URL}/storage/v1/object/public/images/${imagePath}`;
+  return imagePath;
 }
-*/
+
 
 export function formatDate(dateStr) {
   if (!dateStr) return '—';
