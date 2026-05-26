@@ -1,11 +1,13 @@
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
+/*
 export function getImageUrl(imagePath) {
   if (!imagePath) return null;
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) return imagePath;
   return `${SUPABASE_URL}/storage/v1/object/public/images/${imagePath}`;
 }
+*/
 
 export function formatDate(dateStr) {
   if (!dateStr) return '—';
@@ -21,5 +23,5 @@ export function imgTag(imagePath, alt = 'Détection') {
 }
 
 export function goToAnalyse(id) {
-  window.location.href = `/analyse-page/?id=${id}`;
+  window.location.href = `/analyse-page/${id}`;
 }

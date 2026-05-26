@@ -4,13 +4,14 @@ import { initStats } from "./stats.js";
 import { initPhotos, renderPhotosPage } from "./photos.js";
 import { initAnalyse } from "./analyse.js";
 import { initAlertes } from "./alertes.js";
+import { goToAnalyse } from "./helpers.js";
 
 
 // ─── INITIALISATION ───────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
   // Lien actif dans la navbar
-  const currentFile = window.location.pathname.split('/').pop() || 'main.html';
+  const currentFile = window.location.pathname.split('/').pop() || 'main.html'; // ? mettre /main-page ?
   document.querySelectorAll('.nav-link').forEach(link => {
     if (link.getAttribute('href') === currentFile) link.classList.add('active');
   });
