@@ -630,7 +630,7 @@ pre {
 .popup-overlay.hidden { display: none; }
 
 .popup {
-  background: var(--bg-surface);
+  background: white;
   border: 1px solid var(--danger);
   border-radius: var(--radius-lg);
   width: 100%;
@@ -662,7 +662,7 @@ pre {
 .popup__close {
   background: none;
   border: none;
-  color: var(--text-muted);
+  color: black;
   cursor: pointer;
   font-size: 1rem;
   line-height: 1;
@@ -675,7 +675,7 @@ pre {
   padding: 1.25rem;
 }
 .popup__body p {
-  color: var(--text-secondary);
+  color: var(--bg-surface);
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
@@ -687,7 +687,7 @@ pre {
   font-size: 0.875rem;
 }
 .popup__label {
-  color: var(--text-muted);
+  color: var(--bg-surface);
   min-width: 50px;
 }
 

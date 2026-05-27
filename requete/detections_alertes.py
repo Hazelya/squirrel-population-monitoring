@@ -126,7 +126,6 @@ def remove(id: str):
             .eq("detection_id", id)
             .execute()
         )
-
     except PostgrestAPIError as error:
         print(f"Database error: {error.message}")
     
@@ -138,7 +137,6 @@ def remove(id: str):
             .execute()
         )
         return
-
     except PostgrestAPIError as error:
         print(f"Database error: {error.message}")
 

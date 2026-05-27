@@ -73,9 +73,7 @@ def upload_image():
     # Vérification fichier
     if 'image' not in request.files:
         return jsonify({'error': 'Aucune image reçue'}), 400
-
     file = request.files['image']
-
     if file.filename == '':
         return jsonify({'error': 'Fichier invalide'}), 400
 
@@ -86,7 +84,6 @@ def upload_image():
 
         # Conevertir au format JPEG
         buffer = io.BytesIO()
-
         img.save(
             buffer,
             format='JPEG',
@@ -104,7 +101,6 @@ def upload_image():
                 os.environ.get("SUPABASE_URL"),
                 os.environ.get("SUPABASE_SERVICE_KEY")
             )
-
             supabase.storage.from_("photos-detection").upload(
                 path=filename,
                 file=image_bytes,
@@ -113,7 +109,6 @@ def upload_image():
                     "upsert": "true"
                 }
             )
-
             image_path = supabase.storage \
                 .from_("photos-detection") \
                 .get_public_url(filename)
@@ -126,7 +121,6 @@ def upload_image():
                 app.static_folder,
                 'uploads'
             )
-
             os.makedirs(uploads_dir, exist_ok=True)
             filepath = os.path.join(
                 uploads_dir,
@@ -153,9 +147,7 @@ def upload_image():
         })
 
     except Exception as e:
-
         print(e)
-
         return jsonify({
             'error': str(e)
         }), 500
