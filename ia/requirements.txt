@@ -1,0 +1,10 @@
+torch
+torchvision
+transformers
+timm
+pillow
+supabase
+httpx
+ultralytics
+python-dotenv
+gdown
