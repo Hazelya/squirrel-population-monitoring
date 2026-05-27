@@ -18,7 +18,7 @@ Flux :
     UPDATE detection(image_ia_path, clip_labels)
 
 Installation :
-    pip install torch torchvision transformers timm pillow supabase python-dotenv httpx ultralytics
+    pip install torch torchvision transformers timm pillow supabase python-dotenv httpx ultralytics gdown
 
 Variables d'environnement (.env) :
     SUPABASE_URL=https://xxxx.supabase.co
@@ -29,6 +29,7 @@ Variables d'environnement (.env) :
 import os
 from io import BytesIO
 
+import gdown
 import httpx
 import torch
 import torch.nn as nn
@@ -58,6 +59,29 @@ IA_BUCKET     = "photos-ia-detection"
 TABLE         = "detection"
 
 CLASSIFIER_PATH = "squirrel_classifier_v2.pth"
+YOLO_PATH       = "yolo_squirrel.pt"
+
+# ─────────────────────────────────────────────────────────────
+# TÉLÉCHARGEMENT AUTOMATIQUE DES MODÈLES
+# ─────────────────────────────────────────────────────────────
+
+if not os.path.exists(CLASSIFIER_PATH):
+    print("Téléchargement du modèle ConvNeXt depuis Google Drive...")
+    gdown.download(
+        "https://drive.google.com/uc?id=11Lx5IcBU4jzEtmZFjWhKrNSfmCakBM_n",
+        CLASSIFIER_PATH,
+        quiet=False
+    )
+    print("ConvNeXt téléchargé ✓")
+
+if not os.path.exists(YOLO_PATH):
+    print("Téléchargement du modèle YOLO depuis Google Drive...")
+    gdown.download(
+        "https://drive.google.com/uc?id=1ljUvPuwqsR4YJbizYhEus5OtHNupRCm2",
+        YOLO_PATH,
+        quiet=False
+    )
+    print("YOLO téléchargé ✓")
 
 # ─────────────────────────────────────────────────────────────
 # CLIENTS SUPABASE
@@ -87,7 +111,7 @@ CLIP_LABELS = [
     "a photo of an empty forest",
     "a photo of another animal",
 ]
-CLIP_THRESHOLD = 0.5  # score minimum pour considérer qu'il y a un écureuil
+CLIP_THRESHOLD = 0.5
 
 print("CLIP chargé")
 
@@ -95,7 +119,6 @@ print("CLIP chargé")
 # EFFICIENTNET  —  classification d'espèce
 # ─────────────────────────────────────────────────────────────
 
-# Doit correspondre à l'ordre alphabétique des dossiers du dataset
 CLASS_NAMES = [
     "ecureuil_coree",   # index 0
     "ecureuil_gris",    # index 1
@@ -110,7 +133,7 @@ CLASS_LABELS = {
     "ecureuil_roux":   "Écureuil roux",
 }
 
-print("Chargement EfficientNet...")
+print("Chargement ConvNeXt...")
 
 efficientnet = timm.create_model(
     "convnext_tiny",
@@ -121,7 +144,6 @@ efficientnet.load_state_dict(torch.load(CLASSIFIER_PATH, map_location=DEVICE))
 efficientnet = efficientnet.to(DEVICE)
 efficientnet.eval()
 
-# Transform identique à celui utilisé pendant l'entraînement (val_transform)
 efficientnet_transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
@@ -129,14 +151,14 @@ efficientnet_transform = transforms.Compose([
                          [0.229, 0.224, 0.225]),
 ])
 
-print("EfficientNet chargé")
+print("ConvNeXt chargé")
 
 # ─────────────────────────────────────────────────────────────
 # YOLO  —  bounding box
 # ─────────────────────────────────────────────────────────────
 
 print("Chargement YOLO...")
-yolo = YOLO("yolov8n.pt")
+yolo = YOLO(YOLO_PATH)
 print("YOLO chargé")
 
 # ─────────────────────────────────────────────────────────────
@@ -191,7 +213,7 @@ def has_squirrel(image_bytes: bytes) -> tuple[bool, float]:
     with torch.no_grad():
         probs = clip_model(**inputs).logits_per_image.softmax(dim=1)[0]
 
-    squirrel_score = probs[0].item()  # index 0 = "a photo of a squirrel"
+    squirrel_score = probs[0].item()
     return squirrel_score >= CLIP_THRESHOLD, round(squirrel_score * 100, 2)
 
 # ─────────────────────────────────────────────────────────────
@@ -238,19 +260,14 @@ def draw_detection_box(image_bytes: bytes, top_species: str, top_conf: float) ->
     for box in yolo_results.boxes:
         if float(box.conf[0]) < 0.4:
             continue
-
         x1, y1, x2, y2 = map(int, box.xyxy[0])
-        yolo_cls  = yolo_results.names[int(box.cls[0])]
-        yolo_conf = float(box.conf[0])
-
         draw.rectangle([x1, y1, x2, y2], outline="red", width=3)
-        label     = f"{top_species} {top_conf:.0f}%  [{yolo_cls} {yolo_conf:.0%}]"
+        label     = f"{top_species} {top_conf:.0f}%"
         bbox_text = draw.textbbox((x1, y1 - 20), label, font=font)
         draw.rectangle(bbox_text, fill="black")
         draw.text((x1, y1 - 20), label, fill="red", font=font)
         boxes_drawn += 1
 
-    # Si YOLO ne trouve rien → encadre toute l'image
     if boxes_drawn == 0:
         draw.rectangle([5, 5, w - 5, h - 5], outline="orange", width=3)
         label     = f"{top_species} {top_conf:.0f}%  [CLIP+EfficientNet]"
@@ -318,7 +335,7 @@ def process_detection(row: dict) -> None:
         return
 
     # 3. EfficientNet — classification espèce
-    print("EfficientNet — classification espèce...")
+    print("ConvNeXt — classification espèce...")
     species_labels = classify_species(image_bytes)
     top = species_labels[0]
     print(f"Espèce : {top['species']} ({top['confidence']}%)")
