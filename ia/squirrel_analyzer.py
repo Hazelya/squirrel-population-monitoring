@@ -77,7 +77,7 @@ if not os.path.exists(CLASSIFIER_PATH):
 if not os.path.exists(YOLO_PATH):
     print("Téléchargement du modèle YOLO depuis Google Drive...")
     gdown.download(
-        "https://drive.google.com/uc?id=1ljUvPuwqsR4YJbizYhEus5OtHNupRCm2",
+        "https://drive.google.com/uc?id=1VnGjmBfx0nHk2XMSHSIqNiYYKSklT2hw",
         YOLO_PATH,
         quiet=False
     )
