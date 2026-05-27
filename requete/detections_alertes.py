@@ -49,7 +49,7 @@ def get_all_alert():
     try:
         response = (
             supabase.table('alerte')
-            .select("type_alerte", "date_alerte", "detection(image_path)")
+            .select("id_alerte", "type_alerte", "date_alerte", "detection(image_path)", "detection_id")
             .execute()
         )
         return response.data
@@ -62,7 +62,7 @@ def get_one_alert(id: int):
     try:
         response = (
             supabase.table('alerte')
-            .select("type_alerte", "date_alerte", "detection(image_path)")
+            .select("id_alerte", "type_alerte", "date_alerte", "detection(image_path)", "detection_id")
             .eq("id_alerte", id)
             .execute()
         )

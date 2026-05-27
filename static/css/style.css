@@ -458,7 +458,14 @@ pre {
   color: #284124;
 }
 
-.td-img { width: 56px; }
+.td-img { 
+  width: 150px;
+}
+.td-img:hover { 
+  color: var(--accent);
+}
+
+
 .table-thumb {
   width: 44px;
   height: 44px;

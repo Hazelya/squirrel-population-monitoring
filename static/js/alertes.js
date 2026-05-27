@@ -14,40 +14,40 @@ export async function initAlertes() {
     container.innerHTML = '<p class="empty-state">Aucune alerte sanitaire enregistrée.</p>';
     return;
   }
+  console.log(alertes);
 
   container.innerHTML = `
     <table class="data-table">
       <thead>
         <tr>
-          <th>#</th>
-          <th>Photo</th>
+          <th>#Alerte</th>
+          <th>#Photo</th>
           <th>Type d'alerte</th>
           <th>Date</th>
           <th>Statut</th>
-          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         ${alertes.map(a => `
-          <tr>
+          <tr class="alertes" data-id="${a.detection_id}">
             <td>${a.id_alerte}</td>
             <td class="td-img">
-              ${a.detections?.image_path
-                ? `<img src="${getImageUrl(a.detections.image_path)}" alt="alerte" loading="lazy" class="table-thumb" onerror="this.style.display='none'">`
-                : '—'}
+              ${a.detection_id}
             </td>
             <td><span class="badge badge--warning">${a.type_alerte || '—'}</span></td>
             <td>${formatDate(a.date_alerte)}</td>
             <td>${a.statut || '—'}</td>
-            <td>
-              ${a.detection_id
-                ? `<button class="btn btn--sm btn--primary" onclick="goToAnalyse(${a.detection_id})">Voir</button>`
-                : '—'}
-            </td>
           </tr>
         `).join('')}
       </tbody>
     </table>
   `;
+
+  document.querySelectorAll('.alertes').forEach(alerte => {
+    alerte.addEventListener('click', () => {
+      const id = alerte.dataset.id;
+      window.location.href = `/analyse-page/${id}`;
+    });
+  });
 }
 
