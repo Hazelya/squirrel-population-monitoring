@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 from requete.detections_alertes import get_all_detections, get_images, get_one_detection, get_all_alert, get_one_alert, set_alert, set_disease, remove, set_image
+from ia.squirrel_analyzer import run
 import os, uuid, io
 from datetime import date
 from dotenv import load_dotenv
@@ -120,6 +121,12 @@ def upload_image():
         return jsonify({
             'error': str(e)
         }), 500
+    
+
+@app.route('/run-ia')
+def run_ia():
+    run()
+
 
 
 if __name__ == '__main__':

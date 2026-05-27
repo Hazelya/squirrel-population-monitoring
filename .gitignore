@@ -1,4 +1,8 @@
-# Variable d'environnement
+# Contexte IA
+squirrel_classifier_v2.pth
+yolo_squirrel.pt
+
+# Variables d'environnement
 .env
 
 # Byte-compiled / optimized / DLL files
