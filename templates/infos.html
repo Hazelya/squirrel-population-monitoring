@@ -81,35 +81,16 @@
             <tr><th>Table</th><th>Colonne</th><th>Type</th><th>Description</th></tr>
           </thead>
           <tbody>
-            <tr><td rowspan="3"><strong>detections</strong></td><td>id_detection</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
+            <tr><td rowspan="3" class="td-special"><strong>detections</strong></td><td>id_detection</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
             <tr><td>image_path</td><td>TEXT</td><td>Chemin vers l'image</td></tr>
             <tr><td>malade</td><td>BOOLEAN</td><td>Individu malade détecté</td></tr>
-            <tr><td rowspan="5"><strong>alertes</strong></td><td>id_alerte</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
+            <tr><td rowspan="5" class="td-special no-line"><strong>alertes</strong></td><td>id_alerte</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
             <tr><td>type_alerte</td><td>TEXT</td><td>Type d'alerte sanitaire</td></tr>
             <tr><td>date_alerte</td><td>DATE</td><td>Date de l'alerte</td></tr>
             <tr><td>statut</td><td>TEXT</td><td>Statut de traitement</td></tr>
             <tr><td>detection_id</td><td>INTEGER FK</td><td>Référence à detections</td></tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="content-card">
-        <h3>Intégration — Module IA (Baptiste / Laurine)</h3>
-        <p>Après classification sur votre module, envoyez le résultat via l'API Flask :</p>
-        <pre><code>import requests, base64
-
-with open("image.jpg", "rb") as f:
-    img_b64 = base64.b64encode(f.read()).decode()
-
-requests.post("http://&lt;serveur&gt;:5000/api/results", json={
-    "label": "a photo of a red squirrel",
-    "label_short": "Ecureuil roux",
-    "confidence": 0.92,
-    "health_alert": False,
-    "all_scores": {},
-    "device_id": "cam_01",
-    "image_base64": img_b64
-})</code></pre>
       </div>
 
       <div class="content-card">

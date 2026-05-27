@@ -1,13 +1,14 @@
 
 /* ── CSS VARIABLES ─────────────────────────────────────────────────────────── */
 :root {
-  --bg-base:       #0f172a;
-  --bg-surface:    #1e293b;
-  --bg-elevated:   #263347;
-  --border:        #334155;
-  --text-primary:  #f1f5f9;
-  --text-secondary:#94a3b8;
-  --text-muted:    #64748b;
+  --bg-base:       white;
+  --bg-surface:    #284124;
+  --bg-elevated:   #48893e;
+  --border:        white;
+  --border-dark:   #48893e;
+  --text-primary:  #284124;
+  --text-secondary:white;
+  --text-muted:    rgb(225, 222, 222);
   --accent:        #f97316;
   --accent-hover:  #ea6c0a;
   --success:       #4ade80;
@@ -16,7 +17,7 @@
   --info:          #60a5fa;
   --radius:        0.5rem;
   --radius-lg:     0.75rem;
-  --shadow:        0 4px 16px rgba(0,0,0,0.4);
+  --shadow:        0 4px 16px rgba(0,0,0,0.2);
   --navbar-h:      60px;
   --transition:    0.2s ease;
 }
@@ -65,8 +66,7 @@ pre {
   top: 0;
   z-index: 100;
   height: var(--navbar-h);
-  background: var(--bg-surface);
-  border-bottom: 1px solid var(--border);
+  background: white;
   display: flex;
   align-items: center;
   padding: 0 1.5rem;
@@ -98,7 +98,7 @@ pre {
 .nav-link {
   padding: 0.4rem 0.8rem;
   border-radius: var(--radius);
-  color: var(--text-secondary);
+  color: black;
   font-size: 0.9rem;
   font-weight: 500;
   transition: background var(--transition), color var(--transition);
@@ -106,8 +106,7 @@ pre {
   white-space: nowrap;
 }
 .nav-link:hover {
-  background: var(--bg-elevated);
-  color: var(--text-primary);
+  color: var(--accent);
   text-decoration: none;
 }
 .nav-link.active {
@@ -179,7 +178,7 @@ pre {
   margin: 1.5rem 0 0.75rem;
 }
 .section-meta {
-  color: var(--text-muted);
+  color: black;
   font-size: 0.875rem;
   margin-bottom: 1.25rem;
 }
@@ -196,7 +195,7 @@ pre {
 .hero h1 {
   font-size: 2.2rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: white;
   margin-bottom: 0.75rem;
 }
 .hero p {
@@ -360,7 +359,7 @@ pre {
 
 .btn--secondary {
   background: var(--bg-elevated);
-  color: var(--text-primary);
+  color: var(--text-secondary);
   border-color: var(--border);
 }
 .btn--secondary:hover { border-color: var(--accent); color: var(--accent); }
@@ -375,10 +374,10 @@ pre {
 
 .btn--ghost {
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   border-color: var(--border);
 }
-.btn--ghost:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+.btn--ghost:hover { color: var(--accent); border-color: var(--accent); }
 
 .btn--sm {
   padding: 0.3rem 0.7rem;
@@ -437,19 +436,27 @@ pre {
 .data-table td {
   padding: 0.65rem 0.9rem;
   text-align: left;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-dark);
+}
+.data-table .no-line {
+  border-bottom: 0px solid var(--border-dark);
 }
 .data-table th {
-  background: var(--bg-elevated);
-  color: var(--text-muted);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-weight: 600;
 }
 .data-table tr:last-child td { border-bottom: none; }
-.data-table tbody tr:hover { background: var(--bg-elevated); }
+.data-table tbody tr:hover { background: var(--bg-elevated); color: var(--text-secondary); }
 .data-table td[rowspan] { vertical-align: top; }
+
+.data-table tbody tr:hover .td-special {
+  background: white;
+  color: #284124;
+}
 
 .td-img { width: 56px; }
 .table-thumb {
@@ -457,7 +464,7 @@ pre {
   height: 44px;
   object-fit: cover;
   border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-dark);
 }
 
 .table-note {
@@ -480,7 +487,7 @@ pre {
   margin-top: 2rem;
 }
 .pagination-info {
-  color: var(--text-muted);
+  color: var(--border-dark);
   font-size: 0.875rem;
 }
 
@@ -527,9 +534,10 @@ pre {
 }
 
 /* ── CONTENT CARDS ─────────────────────────────────────────────────────────── */
+
 .content-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
+  background: white;
+  border: 1px solid var(--border-dark);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   margin-bottom: 1.25rem;
@@ -537,18 +545,18 @@ pre {
 .content-card h3 {
   margin-top: 0;
   font-size: 1.05rem;
-  color: var(--text-primary);
+  color: var(--accent);
   margin-bottom: 0.875rem;
 }
 .content-card p {
-  color: var(--text-secondary);
+  color: var(--bg-surface);
   line-height: 1.7;
   margin-bottom: 0.75rem;
 }
 .content-card ul {
   list-style: disc;
   padding-left: 1.4rem;
-  color: var(--text-secondary);
+  color: black;
   line-height: 2;
 }
 .content-card ul li { margin-bottom: 0.2rem; }
@@ -570,15 +578,15 @@ pre {
 }
 .arch-step {
   text-align: center;
-  background: var(--bg-elevated);
+  background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 0.875rem 1rem;
   min-width: 110px;
 }
 .arch-icon { font-size: 1.75rem; margin-bottom: 0.3rem; }
-.arch-label { font-size: 0.8rem; font-weight: 600; color: var(--text-primary); }
-.arch-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.15rem; }
+.arch-label { font-size: 0.8rem; font-weight: 600; color: white; }
+.arch-sub { font-size: 0.7rem; color: var(--accent-hover); margin-top: 0.15rem; }
 .arch-arrow { color: var(--accent); font-size: 1.4rem; font-weight: 700; }
 
 /* ── TEAM GRID ─────────────────────────────────────────────────────────────── */
@@ -750,11 +758,7 @@ pre {
   cursor: pointer;
   transition: border-color var(--transition), background var(--transition);
 }
-.upload-zone:hover,
-.upload-zone--over {
-  border-color: var(--accent);
-  background: var(--bg-elevated);
-}
+
 .upload-zone--over { border-style: solid; }
 
 .upload-zone__content {
