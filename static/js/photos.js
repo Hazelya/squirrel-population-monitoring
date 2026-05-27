@@ -56,9 +56,9 @@ export function renderPhotosPage(page) {
 
   document.getElementById('photos-pagination').innerHTML = totalPages > 1 ? `
     <div class="pagination">
-      <button class="btn btn--secondary" onclick="renderPhotosPage(${page - 1})" ${page === 0 ? 'disabled' : ''}>← Précédent</button>
+      <button class="btn btn--primary" onclick="renderPhotosPage(${page - 1})" ${page === 0 ? 'disabled' : ''}>← Précédent</button>
       <span class="pagination-info">Page ${page + 1} / ${totalPages}</span>
-      <button class="btn btn--secondary" onclick="renderPhotosPage(${page + 1})" ${page >= totalPages - 1 ? 'disabled' : ''}>Suivant →</button>
+      <button class="btn btn--primary" onclick="renderPhotosPage(${page + 1})" ${page >= totalPages - 1 ? 'disabled' : ''}>Suivant →</button>
     </div>
   ` : '';
 
