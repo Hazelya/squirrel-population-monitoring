@@ -25,7 +25,9 @@ export async function fetchAlertesByDetection(id) {
 }
 
 export async function fetchRemove(id) {
-  const res = await fetch(`http://localhost:5000/remove/${id}`);
+  const res = await fetch(`http://localhost:5000/remove/${id}`, {
+    method: 'DELETE'
+  });
   const data = await res.json();
   return data || null;
 }

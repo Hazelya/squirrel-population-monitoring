@@ -61,7 +61,7 @@ def alertes_by_detection(id):
     return jsonify(get_one_alert_with_detection(id))
 
 
-@app.route('/remove/<int:id>')
+@app.route('/remove/<int:id>', methods=['DELETE'])
 def delete_detection(id):
     remove(id)
     return jsonify({"ok": True})
