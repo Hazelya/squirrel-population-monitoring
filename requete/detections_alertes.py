@@ -1,7 +1,7 @@
 
 import os
 from datetime import date
-from supabase import PostgrestAPIError
+from supabase import PostgrestAPIError, create_client
 
 from requete.connexion_bdd import supabase
 
@@ -142,5 +142,42 @@ def remove(id: str):
 
 
 
+def set_image(image_bytes, filename):
 
+    image_path = None
 
+    try:
+        storage = create_client(
+            os.environ.get("SUPABASE_URL"),
+            os.environ.get("SUPABASE_SERVICE_KEY")
+        )
+        storage.storage.from_("photos-detection").upload(
+            path=filename,
+            file=image_bytes,
+            file_options={
+                "content-type": "image/jpeg",
+                "upsert": "true"
+            }
+        )
+        image_path = (
+            storage.storage
+            .from_("photos-detection")
+            .get_public_url(filename)
+        )
+
+        # Insertion BDD
+        supabase.table("detection").insert({
+            "image_path": image_path
+        }).execute()
+
+        return image_path
+
+    except PostgrestAPIError as error:
+
+        print(f"Database error: {error.message}")
+
+    except Exception as e:
+
+        print(e)
+
+    return None

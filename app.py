@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
-from requete.detections_alertes import get_all_detections, get_images, get_one_detection, get_all_alert, get_one_alert, set_alert, set_disease, remove
+from requete.detections_alertes import get_all_detections, get_images, get_one_detection, get_all_alert, get_one_alert, set_alert, set_disease, remove, set_image
 import os, uuid, io
 from datetime import date
 from dotenv import load_dotenv
@@ -67,22 +67,29 @@ def delete_detection(id):
     return jsonify({"ok": True})
 
 
+
 @app.route('/upload', methods=['POST'])
 def upload_image():
 
     # Vérification fichier
     if 'image' not in request.files:
-        return jsonify({'error': 'Aucune image reçue'}), 400
+        return jsonify({
+            'error': 'Aucune image reçue'
+        }), 400
+
     file = request.files['image']
     if file.filename == '':
-        return jsonify({'error': 'Fichier invalide'}), 400
+        return jsonify({
+            'error': 'Fichier invalide'
+        }), 400
 
     try:
+        # Lire image
+        img = PILImage.open(
+            file.stream
+        ).convert('RGB')
 
-        # Lire l'image
-        img = PILImage.open(file.stream).convert('RGB')
-
-        # Conevertir au format JPEG
+        # Conversion JPEG
         buffer = io.BytesIO()
         img.save(
             buffer,
@@ -91,63 +98,25 @@ def upload_image():
         )
         image_bytes = buffer.getvalue()
         filename = f"{uuid.uuid4().hex}.jpg"
-        image_path = None
 
-        # Upload l'image dans Supabase
-        try:
-            from supabase import create_client
-
-            supabase = create_client(
-                os.environ.get("SUPABASE_URL"),
-                os.environ.get("SUPABASE_SERVICE_KEY")
-            )
-            supabase.storage.from_("photos-detection").upload(
-                path=filename,
-                file=image_bytes,
-                file_options={
-                    "content-type": "image/jpeg",
-                    "upsert": "true"
-                }
-            )
-            image_path = supabase.storage \
-                .from_("photos-detection") \
-                .get_public_url(filename)
-
-            print("Upload Supabase OK")
-
-        except Exception as e:
-            print("Supabase error:", e)
-            uploads_dir = os.path.join(
-                app.static_folder,
-                'uploads'
-            )
-            os.makedirs(uploads_dir, exist_ok=True)
-            filepath = os.path.join(
-                uploads_dir,
-                filename
-            )
-            img.save(filepath)
-            image_path = f"/static/uploads/{filename}"
-            print("Fallback local OK")
-
-        try:
-
-            from requete.connexion_bdd import supabase as db
-
-            db.table('detection').insert({
-                'image_path': image_path
-            }).execute()
-
-        except Exception as e:
-            print("DB error:", e)
-
+        # Upload + DB
+        image_path = set_image(
+            image_bytes,
+            filename
+        )
+        if image_path is None:
+            return jsonify({
+                'error': 'Erreur upload'
+            }), 500
         return jsonify({
             'success': True,
             'image_path': image_path
         })
 
     except Exception as e:
+
         print(e)
+
         return jsonify({
             'error': str(e)
         }), 500
