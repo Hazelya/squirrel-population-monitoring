@@ -31,3 +31,28 @@ export async function fetchRemove(id) {
   const data = await res.json();
   return data || null;
 }
+
+export async function fetchRunIA(id) {
+  const res = await fetch(`http://localhost:5000/run-ia`, {
+    method: 'POST'
+  });
+  const data = await res.json();
+  return data || null;
+}
+
+
+export async function fetchSetAlerte(id_detection, type_alerte, date_alerte, statut) {
+      const res = await fetch(
+        `http://localhost:5000/set-alerte/${id_detection}/${type_alerte}/${date_alerte}/${statut}`, {
+            method: 'POST'
+        });
+    const data = await res.json();
+    return data || null;
+}
+
+
+export async function fetchWorkflowStatus() {
+    const response = await fetch("http://127.0.0.1:5000/workflow-status");
+    return await response.json();
+}
+

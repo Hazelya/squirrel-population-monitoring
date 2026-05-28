@@ -96,12 +96,12 @@ export async function initAnalyse() {
   `;
 
   document.querySelectorAll('.btn-remove').forEach(button => {
-  button.addEventListener('click', async () => {
-    const id = button.dataset.id;
-    await fetchRemove(id);
-    window.location.href = '/photos-page';
+    button.addEventListener('click', async () => {
+      const id = button.dataset.id;
+      await fetchRemove(id);
+      window.location.href = '/photos-page';
+    });
   });
-});
 
 }
 

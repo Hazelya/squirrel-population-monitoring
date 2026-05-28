@@ -3,7 +3,7 @@ from flask_cors import CORS
 from requete.detections_alertes import (
     get_all_detections, get_images, get_one_detection,
     get_all_alert, get_one_alert, set_alert,
-    set_disease, remove, set_image
+    set_disease, remove, set_image, get_one_alert_with_detection
 )
 import os, uuid, io
 from datetime import date
@@ -21,8 +21,8 @@ CORS(app)
 # =======================
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
-OWNER = "Hazelya"
-REPO = "squirrel-population-monitoring"
+GITHUB_OWNER = "Hazelya"
+GITHUB_REPO = "squirrel-population-monitoring"
 
 WORKFLOW = "squirrel_analyzer.yml"
 
@@ -87,8 +87,13 @@ def one_alerte(id):
 
 @app.route('/detections/<int:id>/alertes')
 def alertes_by_detection(id):
-    from requete.detections_alertes import get_one_alert_with_detection
     return jsonify(get_one_alert_with_detection(id))
+
+
+@app.route('/set-alerte/<int:id>/<string:type_alerte>/<string:date_alerte>/<string:statut>', methods=['POST'])
+def set_detection(id, type_alerte, date_alerte, statut):
+    set_alert(id, type_alerte, date_alerte, statut)
+    return jsonify({"ok": True})
 
 
 @app.route('/remove/<int:id>', methods=['DELETE'])
@@ -138,7 +143,8 @@ def upload_image():
 @app.route('/run-ia', methods=['POST'])
 def run_ia():
 
-    url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/actions/workflows/{WORKFLOW_FILE}/dispatches"
+    print("rentre")
+    url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/actions/workflows/{WORKFLOW}/dispatches"
 
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -152,11 +158,43 @@ def run_ia():
     response = requests.post(url, headers=headers, json=payload)
 
     return jsonify({
-        "success": response.status_code == 204,
+        "success": response.status_code == 200 or response.status_code == 204,
         "status_code": response.status_code,
         "response": response.text
     })
 
 
+@app.route('/workflow-status')
+def workflow_status():
+
+    url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/actions/runs"
+
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json"
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.status_code != 200:
+        return jsonify({"success": False}), 500
+
+    runs = response.json()["workflow_runs"]
+
+    if not runs:
+        return jsonify({
+            "success": True,
+            "status": "unknown"
+        })
+
+    latest = runs[0]
+
+    return jsonify({
+        "success": True,
+        "status": latest["status"],
+        "conclusion": latest["conclusion"]
+    })
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)

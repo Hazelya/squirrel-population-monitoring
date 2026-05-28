@@ -5,6 +5,7 @@ import { initPhotos, renderPhotosPage } from "./photos.js";
 import { initAnalyse } from "./analyse.js";
 import { initAlertes } from "./alertes.js";
 import { goToAnalyse } from "./helpers.js";
+import { runIA } from "./run_ia.js";
 
 
 // ─── INITIALISATION ───────────────────────────────────────────────────────────
@@ -30,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Exposer les fonctions nécessaires au HTML (onclick dans innerHTML)
   window.closePopup = closePopup;
   window.goToAnalyse = goToAnalyse;
+  window.runIA = runIA;
 
   // Vérifier popup d'alerte
   checkAlertPopup();
