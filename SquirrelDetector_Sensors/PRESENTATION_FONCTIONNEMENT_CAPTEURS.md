@@ -2,7 +2,7 @@
 
 **Projet :** Suivi environnement temps réel (M2 NEDD)  
 **Matériel :** ESP32-S3 Freenove WROOM + caméra OV3660 + carte SD + capteur PIR (GPIO 2)  
-**Firmware :** `squirrel_detector_cursorV2.ino` (Arduino ESP32 ≥ 2.0.14)
+**Firmware :** `SquirrelDetector_Sensors.ino` (Arduino ESP32 ≥ 2.0.14)
 
 Ce document sert de support de présentation : il décrit le flux complet du firmware, justifie les choix par rapport au cahier des charges du projet, et liste chaque paramètre de la section **CONFIGURATION UTILISATEUR**.
 
