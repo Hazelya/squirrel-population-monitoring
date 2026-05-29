@@ -70,9 +70,9 @@
           <tbody>
             <tr><td>Backend</td><td>Python / Flask</td></tr>
             <tr><td>Base de données</td><td>Supabase</td></tr>
-            <tr><td>Modèle IA</td><td>CLIP ViT-B/32 (OpenAI)</td></tr>
+            <tr><td>Modèle IA</td><td>CLIP (OpenAI)</td></tr>
             <tr><td>Frontend</td><td>HTML / CSS / JavaScript</td></tr>
-            <tr><td>Communication DB</td><td>Supabase JS Client v2</td></tr>
+            <tr><td>Communication DB</td><td>Supabase / API Fetch </td></tr>
             <tr><td>Graphiques</td><td>Chart.js (CDN)</td></tr>
             <tr><td>Transmission</td><td>Wifi</td></tr>
           </tbody>
@@ -86,28 +86,20 @@
             <tr><th>Table</th><th>Colonne</th><th>Type</th><th>Description</th></tr>
           </thead>
           <tbody>
-            <tr><td rowspan="3" class="td-special"><strong>detections</strong></td><td>id_detection</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
+            <tr><td rowspan="7" class="td-special"><strong>detections</strong></td><td>id_detection</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
+            <tr><td>date_detection</td><td>timestamp</td><td>Date de la détection</td></tr>
             <tr><td>image_path</td><td>TEXT</td><td>Chemin vers l'image</td></tr>
-            <tr><td>malade</td><td>BOOLEAN</td><td>Individu malade détecté</td></tr>
+            <tr><td>gps_lat</td><td>FLOAT</td><td>Latitude de l'image</td></tr>
+            <tr><td>gps_lon</td><td>FLOAT</td><td>Longitude de l'image</td></tr>
+            <tr><td>clip_labels</td><td>JSON</td><td>Labels de l'image identifiés par l'IA</td></tr>
+            <tr><td>malade</td><td>BOOLEAN</td><td>Indique si l'animal est malade</td></tr>
             <tr><td rowspan="5" class="td-special no-line"><strong>alertes</strong></td><td>id_alerte</td><td>INTEGER PK</td><td>Identifiant unique</td></tr>
             <tr><td>type_alerte</td><td>TEXT</td><td>Type d'alerte sanitaire</td></tr>
-            <tr><td>date_alerte</td><td>DATE</td><td>Date de l'alerte</td></tr>
-            <tr><td>statut</td><td>TEXT</td><td>Statut de traitement</td></tr>
+            <tr><td>date_alerte</td><td>timestamp</td><td>Date de l'alerte</td></tr>
+            <tr><td>statut</td><td>TEXT</td><td>Statut du traitement</td></tr>
             <tr><td>detection_id</td><td>INTEGER FK</td><td>Référence à detections</td></tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="content-card">
-        <h3>Éco-conception</h3>
-        <ul>
-          <li>Chargement paresseux des images (<code>loading="lazy"</code>)</li>
-          <li>Pagination : 24 images maximum par page</li>
-          <li>JavaScript vanilla uniquement — aucun framework lourd</li>
-          <li>Chart.js chargé depuis CDN uniquement sur la page statistiques</li>
-          <li>Requêtes Supabase limitées et ciblées</li>
-          <li>Pages séparées : seul le JS nécessaire est chargé</li>
-        </ul>
       </div>
 
     </section>

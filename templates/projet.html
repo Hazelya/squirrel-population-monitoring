@@ -64,14 +64,11 @@
       <div class="content-card">
         <h3>Contexte scientifique</h3>
         <p>
-          Le Projet Écureuil est un système IoT autonome conçu pour surveiller les populations
-          d'écureuils en milieu naturel. Face au déclin des populations d'écureuils roux
-          (<em>Sciurus vulgaris</em>) et à la propagation de maladies transmises par l'écureuil
-          gris invasif, un suivi automatisé et non-intrusif est nécessaire.
-        </p>
-        <p>
-          Le système capture des images en conditions réelles, les transmet via réseau LTE-M,
-          puis les classifie automatiquement grâce au modèle d'intelligence artificielle CLIP.
+          La préservation de la biodiversité constitue un enjeu majeur pour les écosystèmes. De nombreuses espèces animales sont menacées par les activités humaines, la fragmentation des habitats naturels ainsi que l’introduction d’espèces invasives. Ces dernières peuvent perturber l’équilibre écologique en entrant en compétition avec les espèces natives pour les ressources alimentaires, l’habitat ou encore en transmettant des maladies.
+          <br><br>
+          Dans ce contexte, la surveillance des populations animales devient essentielle.
+          <br><br>
+          Le projet vise donc à concevoir un dispositif autonome de détection et d’observation des écureuils, basé sur un système non-embarqué à faible consommation énergétique. Ce dispositif doit être capable de détecter la présence d’un animal, de capturer une image exploitable pour une analyse par intelligence artificielle, puis de transmettre ces données vers un serveur distant pour traitement et visualisation.
         </p>
       </div>
 
@@ -92,7 +89,7 @@
           <div class="arch-arrow">→</div>
           <div class="arch-step">
             <div class="arch-icon">🤖</div>
-            <div class="arch-label">CLIP ViT-B/32</div>
+            <div class="arch-label">CLIP (OpenAI)</div>
             <div class="arch-sub">Classification IA</div>
           </div>
           <div class="arch-arrow">→</div>
@@ -107,28 +104,6 @@
             <div class="arch-label">Interface Web</div>
             <div class="arch-sub">Visualisation</div>
           </div>
-        </div>
-      </div>
-
-      <div class="two-col">
-        <div class="content-card">
-          <h3>Avantages</h3>
-          <ul>
-            <li>Surveillance 24h/24 non-intrusive</li>
-            <li>Classification IA zero-shot (CLIP)</li>
-            <li>Détection automatique d'individus malades</li>
-            <li>Alertes sanitaires en temps réel</li>
-            <li>Interface accessible depuis tout navigateur</li>
-            <li>Base de données cloud Supabase</li>
-          </ul>
-        </div>
-        <div class="content-card">
-          <h3>Limites actuelles</h3>
-          <ul>
-            <li>Dépendance à la qualité d'image</li>
-            <li>Faux positifs possibles (autres animaux)</li>
-            <li>Pas de géolocalisation par défaut</li>
-          </ul>
         </div>
       </div>
 
