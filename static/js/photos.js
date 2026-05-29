@@ -12,19 +12,20 @@ export async function initPhotos() {
 }
 
 export function renderPhotosPage(page) {
+
+  // Trier du plus récent au plus ancien
+  photosAllData.sort((a, b) => {
+    return new Date(b.date_detection) - new Date(a.date_detection);
+  });
+
   const total = photosAllData.length;
   const totalPages = Math.ceil(total / PHOTOS_PER_PAGE);
 
-  // Calcul des bornes de la page en partant de la fin du tableau
-  const start = Math.max(
-    total - (page + 1) * PHOTOS_PER_PAGE,
-    0
-  );
-  const end = total - page * PHOTOS_PER_PAGE;
+  // Pagination
+  const start = page * PHOTOS_PER_PAGE;
+  const end = start + PHOTOS_PER_PAGE;
 
-  // Récupère les éléments de la page puis inverse l’ordre
-  // pour afficher les plus récents en premier
-  const slice = photosAllData.slice(start, end).reverse();
+  const slice = photosAllData.slice(start, end);
 
   document.getElementById('photos-count').textContent = `${total} détection${total > 1 ? 's' : ''} au total`;
 

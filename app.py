@@ -143,7 +143,6 @@ def upload_image():
 @app.route('/run-ia', methods=['POST'])
 def run_ia():
 
-    print("rentre")
     url = f"https://api.github.com/repos/{GITHUB_OWNER}/{GITHUB_REPO}/actions/workflows/{WORKFLOW}/dispatches"
 
     headers = {

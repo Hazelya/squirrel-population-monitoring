@@ -1,20 +1,40 @@
 import { fetchAlertes } from "./fetch.js";
-import { getImageUrl, formatDate } from "./helpers.js";
+import { formatDate } from "./helpers.js";
 
-// ─── PAGE: ALERTES (alertes.html) ────────────────────────────────────────────
+const ALERTES_PER_PAGE = 10;
+let alertesAllData = [];
 
 export async function initAlertes() {
-  const alertes = await fetchAlertes();
+  alertesAllData = await fetchAlertes();
+  renderAlertespage(0);
+}
+
+export async function renderAlertespage(page = 0) {
+
+  // Trier du plus récent au plus ancien
+  alertesAllData.sort((a, b) => {
+    return new Date(b.date_alerte) - new Date(a.date_alerte);
+  });
+
+  const total = alertesAllData.length;
+  const totalPages = Math.ceil(total / ALERTES_PER_PAGE);
+
+  // Pagination
+  const start = page * ALERTES_PER_PAGE;
+  const end = start + ALERTES_PER_PAGE;
+
+  const slice = alertesAllData.slice(start, end);
 
   document.getElementById('alertes-count').textContent =
-    `${alertes.length} alerte${alertes.length > 1 ? 's' : ''} enregistrée${alertes.length > 1 ? 's' : ''}`;
+    `${total} alerte${total > 1 ? 's' : ''} enregistrée${total > 1 ? 's' : ''}`;
 
   const container = document.getElementById('alertes-table');
-  if (alertes.length === 0) {
-    container.innerHTML = '<p class="empty-state">Aucune alerte sanitaire enregistrée.</p>';
+
+  if (slice.length === 0) {
+    container.innerHTML =
+      '<p class="empty-state">Aucune alerte sanitaire enregistrée.</p>';
     return;
   }
-  console.log(alertes);
 
   container.innerHTML = `
     <table class="data-table">
@@ -28,13 +48,17 @@ export async function initAlertes() {
         </tr>
       </thead>
       <tbody>
-        ${alertes.map(a => `
+        ${slice.map(a => `
           <tr class="alertes" data-id="${a.detection_id}">
             <td>${a.id_alerte}</td>
             <td class="td-img">
               ${a.detection_id}
             </td>
-            <td><span class="badge badge--warning">${a.type_alerte || '—'}</span></td>
+            <td>
+              <span class="badge badge--warning">
+                ${a.type_alerte || '—'}
+              </span>
+            </td>
             <td>${formatDate(a.date_alerte)}</td>
             <td>${a.statut || '—'}</td>
           </tr>
@@ -49,5 +73,33 @@ export async function initAlertes() {
       window.location.href = `/analyse-page/${id}`;
     });
   });
+
+  document.getElementById('alertes-pagination').innerHTML =
+    totalPages > 1
+      ? `
+      <div class="pagination">
+        <button
+          class="btn btn--primary"
+          onclick="window.changeAlertesPage(${page - 1})"
+          ${page === 0 ? 'disabled' : ''}
+        >
+          ← Précédent
+        </button>
+
+        <span class="pagination-info">
+          Page ${page + 1} / ${totalPages}
+        </span>
+
+        <button
+          class="btn btn--primary"
+          onclick="window.changeAlertesPage(${page + 1})"
+          ${page >= totalPages - 1 ? 'disabled' : ''}
+        >
+          Suivant →
+        </button>
+      </div>
+    `
+      : '';
 }
 
+window.changeAlertesPage = renderAlertespage;
