@@ -26,6 +26,18 @@ Merci d'installer les librairies suivantes
 - flask
 - flask-cors
 - supabase
+- torch
+- torchvision
+- transformers
+- timm
+- pillow
+- supabase
+- httpx
+- ultralytics
+- python-dotenv
+- gdown
+
+<br>
 
 ```bash
 pip install -r requirements.txt
