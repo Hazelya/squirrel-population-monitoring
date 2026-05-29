@@ -1,10 +1,13 @@
 import { fetchRunIA, fetchAlertes, fetchDetections, fetchWorkflowStatus, fetchSetAlerte } from "./fetch.js";
 
+
+// Dors le temps du workflow IA
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// ─── LOADING OVERLAY (bloque le site + barre de progression) ─────────────────
+
+// Barre de progression
 
 function injectLoader() {
     if (document.getElementById('run-ia-loader')) return;
@@ -26,12 +29,12 @@ function injectLoader() {
 }
 
 function setProgress(pct, statusText) {
-    const bar    = document.getElementById('run-ia-bar');
-    const pctEl  = document.getElementById('run-ia-pct');
+    const bar = document.getElementById('run-ia-bar');
+    const pctEl = document.getElementById('run-ia-pct');
     const status = document.getElementById('run-ia-status');
-    if (bar)    bar.style.width     = pct + '%';
-    if (pctEl)  pctEl.textContent   = pct + ' %';
-    if (status) status.textContent  = statusText;
+    if (bar) bar.style.width = pct + '%';
+    if (pctEl) pctEl.textContent = pct + ' %';
+    if (status) status.textContent = statusText;
 }
 
 function showLoader() {
@@ -45,7 +48,7 @@ function hideLoader() {
 }
 
 
-// ─── POPUP RÉSULTAT FINAL ─────────────────────────────────────────────────────
+// Popup de fin
 
 function injectPopup() {
     if (document.getElementById('run-ia-popup')) return;
@@ -81,28 +84,13 @@ function closeRunIAPopup() {
 
 function showPopup(icon, title, message, alertes = []) {
     injectPopup();
-    document.getElementById('run-ia-icon').textContent    = icon;
-    document.getElementById('run-ia-title').textContent   = title;
+    document.getElementById('run-ia-icon').textContent = icon;
+    document.getElementById('run-ia-title').textContent = title;
     document.getElementById('run-ia-message').textContent = message;
-
-    const details = document.getElementById('run-ia-details');
-    if (alertes.length > 0) {
-        details.innerHTML = alertes.map(a => `
-          <div class="popup__detail">
-            <span class="popup__label">Détection :</span>
-            <span class="badge badge--danger">#${a.id}</span>
-            <span class="badge badge--warning">${a.type}</span>
-          </div>
-        `).join('');
-    } else {
-        details.innerHTML = '';
-    }
 
     document.getElementById('run-ia-popup').classList.remove('hidden');
 }
 
-
-// ─── LANCEMENT ANALYSE IA ────────────────────────────────────────────────────
 
 export async function runIA() {
     try {
@@ -121,13 +109,13 @@ export async function runIA() {
         setProgress(15, "Analyse lancée — en attente des résultats GitHub Actions…");
 
         // Polling jusqu'à la fin du workflow
-        let finished  = false;
+        let finished = false;
         let pollCount = 0;
         while (!finished) {
             await sleep(5000);
             pollCount++;
 
-            // Progression de 15 → 80 % pendant le polling
+            // Progression de 15 à 80 %
             const pct = Math.min(15 + pollCount * 5, 78);
             setProgress(pct, "Analyse IA en cours sur le serveur…");
 
@@ -154,7 +142,7 @@ export async function runIA() {
             showPopup(
                 '⚠️',
                 'Analyse terminée',
-                `${nouvelles.length} nouvelle(s) alerte(s) créée(s) :`,
+                `${nouvelles.length} nouvelle(s) alerte(s) créée(s) !`,
                 nouvelles
             );
         } else {
@@ -173,14 +161,14 @@ export async function runIA() {
 }
 
 
-// ─── CRÉATION DES ALERTES SANS DOUBLON ───────────────────────────────────────
+// Création des alertes
 
 export async function createAlertes() {
     const nouvelles = [];
 
     try {
         const detections = await fetchDetections();
-        const alertes    = await fetchAlertes();
+        const alertes = await fetchAlertes();
 
         // Clé unique = detection_id + type_alerte
         const existingAlertes = new Set(
@@ -189,7 +177,7 @@ export async function createAlertes() {
 
         for (const detection of detections) {
 
-            // ── Alerte individu malade ────────────────────────────────────
+            // malade
             if (detection.malade) {
                 const key = `${detection.id_detection}-individu malade`;
                 if (!existingAlertes.has(key)) {
@@ -204,7 +192,7 @@ export async function createAlertes() {
                 }
             }
 
-            // ── Alerte tamia de Corée ─────────────────────────────────────
+            // Tamia de corée
             if (detection.clip_labels && detection.clip_labels.length > 0) {
                 const best = detection.clip_labels.reduce(
                     (max, item) => item.confidence > max.confidence ? item : max,

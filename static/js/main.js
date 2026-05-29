@@ -23,7 +23,11 @@ export async function initAccueil() {
     </div>
   `;
 
-  const recent = detections.slice(detections.length - 8); // Les 8 dernière
+  const recent = [...detections]
+  .sort((a, b) => {
+    return new Date(b.date_detection) - new Date(a.date_detection);
+  })
+  .slice(0, 8);
 
   const grid = document.getElementById('recent-detections');
 
